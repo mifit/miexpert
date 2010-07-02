@@ -511,7 +511,7 @@ def Run(argv=None):
 
     if pdbfile2 != 'none':
 
-        file = open(pdbfile,'r')
+        file = open(pdbfile2,'r')
         allLines = file.readlines()
         file.close()
 
