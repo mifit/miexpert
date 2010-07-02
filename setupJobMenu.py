@@ -2,7 +2,7 @@ import mifit, os
 
 MIExpert_dir = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
 
-mifit.addJob("&Integrate with d*TREK",
+mifit.addJob("&Integrate",
              "Integrate",
              "python",
              [ MIExpert_dir + "/mi_integrate_ui.py" ],
