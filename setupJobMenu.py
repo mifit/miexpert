@@ -1,6 +1,9 @@
 import mifit, os
+from PyQt4 import QtCore
 
 MIExpert_dir = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
+
+app = QtCore.QCoreApplication([])
 
 mifit.addJob("&Integrate",
              "Integrate",
