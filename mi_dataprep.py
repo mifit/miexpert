@@ -186,6 +186,13 @@ def Run(argv=None):
                     if line_length == 7:
                         spacegroup_name = aLine[6]
                         spacegroup_name = spacegroup_name.upper()
+                        
+                        # Fix R3/H3 cases for the CCP4 conventions which use H setting
+                    
+                        if spacegroup_name == 'R3':
+                            spacegroup_name = 'H3'
+                        elif spacegroup_name == 'R32':
+                            spacegroup_name = 'H32'
 
         file = open(temp_data_name,'w')
         file.writelines(allLines)

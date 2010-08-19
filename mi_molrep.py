@@ -357,6 +357,13 @@ def Run(argv=None):
                     spacegroup_name = aLine[6]
                     spacegroup_name = spacegroup_name.upper()
 
+                    # Fix R3/H3 cases for the CCP4 conventions which use H setting
+                    
+                    if spacegroup_name == 'R3':
+                        spacegroup_name = 'H3'
+                    elif spacegroup_name == 'R32':
+                        spacegroup_name = 'H32'
+
         if spacegroup_name == 'none':
             print 'Spacegroup was not found in the SCALEPACK reflection data file'
             time.sleep(4)

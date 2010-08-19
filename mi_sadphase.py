@@ -356,6 +356,14 @@ def Run(argv=None):
                 spacegroup = aLine[6]
                 spacegroup = spacegroup.upper()
 
+                # Fix R3/H3 cases for the CCP4 conventions which use H setting
+                    
+                if spacegroup == 'R3':
+                    spacegroup = 'H3'
+                elif spacegroup == 'R32':
+                    spacegroup = 'H32'
+
+
         if acell == 'none' or bcell == 'none' or ccell == 'none' \
            or alpha == 'none' or 'beta' == 'none' or gamma == 'none' or spacegroup == 'none':
             print 'Cell or spacegroup were not found in the reflection data file'
