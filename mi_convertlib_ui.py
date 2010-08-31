@@ -12,9 +12,7 @@ def Usage():
     print ""
 
 
-if __name__ == '__main__':
-
-    app = QtGui.QApplication(sys.argv)
+def start():
 
     config = {}
     settings = QtCore.QSettings("MIFit", "MIExpert")
@@ -57,3 +55,9 @@ if __name__ == '__main__':
     convertArgs += [ "--cif=" + str(filename) ]
     result = subprocess.call(convertArgs)
     exit(result)
+
+
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    QtCore.QTimer.singleShot(500, start),
+    sys.exit(app.exec_())

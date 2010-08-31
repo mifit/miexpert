@@ -195,11 +195,13 @@ class NCSModelingDialog(QtGui.QDialog):
         exit(result)
 
 
-if __name__ == '__main__':
-
-    app = QtGui.QApplication(sys.argv)
-
+def start():
     dialog = NCSModelingDialog()
-
     if dialog.exec_():
         dialog.runJob()
+
+
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    QtCore.QTimer.singleShot(500, start),
+    sys.exit(app.exec_())

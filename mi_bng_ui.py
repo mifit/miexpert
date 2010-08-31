@@ -4,8 +4,10 @@ import mifit
 
 
 class BindNGrindDialog(QtGui.QDialog):
-    def __init__(self, spaceGroupList=None, parent=None):
+    def __init__(self, parent=None):
         super(BindNGrindDialog, self).__init__(parent)
+
+        spaceGroupList = mifit.spacegroupList()
 
         config = {
             'hklin': [],
@@ -355,13 +357,13 @@ class BindNGrindDialog(QtGui.QDialog):
         exit(result)
 
 
-if __name__ == '__main__':
-
-    app = QtGui.QApplication(sys.argv)
-
-    sgList = mifit.spacegroupList()
- 
-    dialog = BindNGrindDialog(sgList)    
-
+def start():
+    dialog = BindNGrindDialog()
     if dialog.exec_():
         dialog.runJob()
+
+
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    QtCore.QTimer.singleShot(500, start),
+    sys.exit(app.exec_())
