@@ -228,7 +228,7 @@ class BindNGrindDialog(QtGui.QDialog):
             'pdbin': '',
             'process_engine': 'none',
             'detector_constants': '',
-            'spacegroup_no': 0,
+            'spacegroup_no': '0',
             'reference_mtz': 'none',
             'multi_search': False,
             'libfile': 'none',
@@ -261,7 +261,7 @@ class BindNGrindDialog(QtGui.QDialog):
             config['detector_constants'] = str(self.detectorConstantsLineEdit.text())
 
         if self.spaceGroupComboBox.currentIndex() != 0:
-            config['spacegroup_no'] = self.spaceGroupComboBox.currentIndex()
+            config['spacegroup_no'] = str(self.spaceGroupComboBox.currentIndex())
 
         if self.referenceDataCheckBox.isChecked():
             config['reference_mtz'] = str(self.referenceDataLineEdit.text())
