@@ -26,7 +26,7 @@ if 'SHELX_DIR' in os.environ.keys():
 def exec_script(script):
     """Executes the given script in the associated MIFit session"""
     global socketId
-    result = None
+    result = QtCore.QString()
     sock = QtNetwork.QLocalSocket()
     sock.connectToServer(socketId)
     if sock.waitForConnected():
@@ -38,24 +38,19 @@ def exec_script(script):
         stream << scriptString
         sock.flush()
 
-        dataSize = 0
-        waitForData = True
-        while waitForData:
-            if not sock.waitForReadyRead(5000):
+        moreInput = True
+        while moreInput:
+            if not sock.waitForReadyRead():
                 break
-            if dataSize == 0:
-                if sock.bytesAvailable() < 8:
-                  continue
-                dataSize = stream.readInt64()
-            if stream.atEnd():
-                break
-            if sock.bytesAvailable() < dataSize:
-                QtGui.qApp.processEvents()
-                continue
-            waitForData = False
-            result = QtCore.QString()
-            stream >> result
+            str = QtCore.QString()
+            stream >> str
+            i = str.indexOf('\b');
+            if i >= 0:
+                str = str.mid(0, i)
+                moreInput = False
+            result.append(str)
 
+        stream << QtCore.QString("ack\b")
         sock.close()
     else:
         print 'error connecting to local socket', socketId
