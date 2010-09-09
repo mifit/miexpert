@@ -32,25 +32,33 @@ def exec_script(script):
     if sock.waitForConnected():
 
         stream = QtCore.QDataStream(sock)
-        stream.setVersion(QtCore.QDataStream.Qt_4_0)
+        stream.setVersion(QtCore.QDataStream.Qt_4_5)
 
-        scriptString = QtCore.QString(script + "\b")
-        stream << scriptString
+        data = QtCore.QByteArray()
+        out = QtCore.QDataStream(data, QtCore.QIODevice.WriteOnly)
+        out.setVersion(QtCore.QDataStream.Qt_4_5)
+        out.writeUInt32(0)
+        out << QtCore.QString(script)
+        out.device().seek(0)
+        out.writeUInt32(data.size() - 8)
+        sock.write(data)
         sock.flush()
 
         moreInput = True
+        dataSize = 0
         while moreInput:
-            if not sock.waitForReadyRead():
+            QtGui.qApp.processEvents()
+            if not sock.waitForReadyRead(200):
                 break
-            str = QtCore.QString()
-            stream >> str
-            i = str.indexOf('\b');
-            if i >= 0:
-                str = str.mid(0, i)
-                moreInput = False
-            result.append(str)
+            if dataSize == 0:
+                if sock.bytesAvailable() < 8:
+                    continue
+                dataSize = stream.readUInt32()
+            if sock.bytesAvailable() < dataSize:
+                continue
+            stream >> result
+            moreInput = False
 
-        stream << QtCore.QString("ack\b")
         sock.close()
     else:
         print 'error connecting to local socket', socketId
