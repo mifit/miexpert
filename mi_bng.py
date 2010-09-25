@@ -38,7 +38,7 @@ def Usage():
     print "  --molimagehome=DIR        Path to MIFit."
     print "  --writemap=yes or no      Write map around target point.  Default: no"
     print "  --detector_constants=FILE Detector constants file.  Default: no file"
-    print "  --process_engine=type     One of dstartrek or mosflm.  Default: dstartrek"
+    print "  --process_engine=type     Default: mosflm"
     print "  -?,--help                 This help."
     print ""
     print "Note:"
@@ -84,7 +84,7 @@ def Run(argv=None):
     detector_constants = 'none'
     mr_sg = 'none'
     mr_sg_best = 'none'
-    process_engine = 'dstartrek'
+    process_engine = 'mosflm'
 
     fragview = '1.0000 0.0000 0.0000 0.0000 1.0000 0.0000 0.0000 0.0000 1.0000'
     zoom = '30.00'
@@ -292,8 +292,8 @@ def Run(argv=None):
 
     # Check the image processing engine parameter is recognized
 
-    if process_engine != 'none' and process_engine != 'dstartrek' and process_engine != 'mosflm':
-        print '\nThe image processing engine must be set to one of none/dstartrek/mosflm'
+    if process_engine != 'none' and process_engine != 'mosflm':
+        print '\nThe image processing engine must be set to one of none/mosflm'
         time.sleep(4)
         return 1
 
@@ -587,12 +587,6 @@ def Run(argv=None):
 
             image_data_processed = 'no'
 
-            # Use beam.mask file in image directory or assume Rigaku CCD (only used for d*TREK)
-
-            beam_mask_path = os.path.join(workingdir,'beam.mask')
-            if not os.path.exists(beam_mask_path):
-                beam_mask_path = 'rigakuccd'
-
             # Check space group is set
 
             if spacegroup_no == 'none':
@@ -620,29 +614,15 @@ def Run(argv=None):
                 tmpargs.append('--detector_constants')
                 tmpargs.append(detector_constants)
 
-            # Execute image data processing 
-            if process_engine == 'dstartrek':
-                tmpargs.append('--beammask')
-                tmpargs.append(beam_mask_path)
+            # Execute image data processing
+            
+            if process_engine == 'mosflm':
                 import mi_integrate
                 if mi_integrate.Run(tmpargs)!=0:
                     runcount = runcount + 1
                     continue
 
-                hklin = os.path.join(bng_workingdir,'ScalAverage_1.ref')
-
-            elif process_engine == 'mosflm':
-                try:
-                    import mi_integrate_mosflm
-                except:
-                    print '\nMOSFLM data processing is not enabled in this release\n'
-                    time.sleep(4)
-                    return 1   
-                if mi_integrate_mosflm.Run(tmpargs)!=0:
-                    runcount = runcount + 1
-                    continue
-
-                hklin = os.path.join(bng_workingdir,'ScalAverage_1.mtz')            
+                hklin = os.path.join(bng_workingdir,'ScalAverage_1.mtz')           
 
             # Check image data processing succeeded
 

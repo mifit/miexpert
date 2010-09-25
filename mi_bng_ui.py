@@ -14,7 +14,7 @@ class BindNGrindDialog(QtGui.QDialog):
             'pdbin': '',
             'process_engine': 'none',
             'detector_constants': '',
-            'spacegroup_no': 0,
+            'spacegroup_no': '0',
             'reference_mtz': 'none',
             'multi_search': False,
             'libfile': 'none',
@@ -48,8 +48,6 @@ class BindNGrindDialog(QtGui.QDialog):
 
         if config['process_engine'] == 'none':
             self.preProcessedRadioButton.setChecked(True)
-        elif config['process_engine'] == 'dstartrek':
-            self.dtrekRadioButton.setChecked(True)
         else:
             self.mosflmRadioButton.setChecked(True)
         
@@ -228,7 +226,7 @@ class BindNGrindDialog(QtGui.QDialog):
             'pdbin': '',
             'process_engine': 'none',
             'detector_constants': '',
-            'spacegroup_no': '0',
+            'spacegroup_no': 0,
             'reference_mtz': 'none',
             'multi_search': False,
             'libfile': 'none',
@@ -250,8 +248,6 @@ class BindNGrindDialog(QtGui.QDialog):
 
         if self.preProcessedRadioButton.isChecked():
             config['process_engine'] = 'none'
-        elif self.dtrekRadioButton.isChecked():
-            config['process_engine'] = 'dstartrek'
         elif self.mosflmRadioButton.isChecked():
             config['process_engine'] = 'mosflm'
         else:

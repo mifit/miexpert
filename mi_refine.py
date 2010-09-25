@@ -177,7 +177,6 @@ def Run(argv=None):
     contact_list = 'no'
     chiral_list = 'no'
     iteration_final = 'no'
-    read_error_log = 'no'
     chain_id_prev = '?'
     res_number_prev = '?'
     num_residues = 0.0
@@ -2175,95 +2174,104 @@ def Run(argv=None):
             if eachLine.find('CGMAT cycle number') > -1 and eachLine.find(cycles) > -1:
                 iteration_final = 'yes'
 
-            if iteration_final == 'yes' and eachLine.find('Restraint type') > -1:
-                read_error_log = 'yes'
-
             # get abnormal bond list
 
-            if bond_list == 'yes' and read_error_log == 'yes':
+            if bond_list == 'yes' and iteration_final == 'yes':
 
                 chain = eachLine[0:1]
                 chain = chain.strip()
                 if chain != '':
-                    resnumber = eachLine[1:5]
-                    resname = eachLine[6:9]
-                    resnumber = resnumber.strip()
-                    resname = resname.strip()
-                    aList_bonds_chain.append(chain)
-                    aList_bonds_resno.append(resnumber)
-                    aList_bonds_resname.append(resname)
+                    aList_split = eachLine.split()
+                    num_aLine = len(aList_split)
+                    if num_aLine > 2:
+                        resnumber = aList_split[1]
+                        resname = aList_split[2]
+                        aList_bonds_chain.append(chain)
+                        aList_bonds_resno.append(resnumber)
+                        aList_bonds_resname.append(resname)
 
+                if eachLine.find('****') or eachLine.find('Limits'):
+                    bond_list == 'no'
+                
             if eachLine.find('Bond distance deviations ') > -1:
                 bond_list = 'yes'
 
             # get abnormal bond angle list
 
-            if angle_list == 'yes' and read_error_log == 'yes':
+            if angle_list == 'yes' and iteration_final == 'yes':
 
                 chain = eachLine[0:1]
                 chain = chain.strip()
                 if chain != '':
-                    resnumber = eachLine[1:5]
-                    resname = eachLine[6:9]
-                    resnumber = resnumber.strip()
-                    resname = resname.strip()
-                    aList_angles_chain.append(chain)
-                    aList_angles_resno.append(resnumber)
-                    aList_angles_resname.append(resname)
+                    aList_split = eachLine.split()
+                    num_aLine = len(aList_split)
+                    if num_aLine > 2:
+                        resnumber = aList_split[1]
+                        resname = aList_split[2]
+                        aList_angles_chain.append(chain)
+                        aList_angles_resno.append(resnumber)
+                        aList_angles_resname.append(resname)
+
+                if eachLine.find('****') or eachLine.find('Limits'):
+                    angle_list == 'no'
 
             if eachLine.find('Bond angle deviations ') > -1:
                 angle_list = 'yes'
 
             # get abnormal contacts list
 
-            if contact_list == 'yes' and read_error_log == 'yes':
+            if contact_list == 'yes' and iteration_final == 'yes':
 
                 chain = eachLine[0:1]
                 chain = chain.strip()
                 if chain != '':
-                    resnumber = eachLine[1:5]
-                    resnumber = resnumber.strip()
-                    resname = eachLine[6:9]
-                    resname = resname.strip()
-                    chain2 = eachLine[18:19]
-                    chain2 = chain2.strip()
-                    resnumber2 = eachLine[19:24]
-                    resnumber2 = resnumber2.strip()
-                    resname2 = eachLine[24:27]
-                    resname2 = resname2.strip()
-                    disorder1 = eachLine[14:15]
-                    disorder2 = eachLine[32:33]
-                    disorder1 = disorder1.strip()
-                    disorder2 = disorder2.strip()
+                    aList_split = eachLine.split()
+                    num_aLine = len(aList_split)
+                    if num_aLine > 10:
+                        resnumber = aList_split[1]
+                        resname = aList_split[2]
+                        disorder1 = aList_split[4]
+                        chain2 = aList_split[6]
+                        resname2 = aList_split[8]
+                        resnumber2 = aList_split[7]
+                        disorder2 = aList_split[10]
 
-                    # Skip intra-residue interactions
+                        # Skip intra-residue interactions
 
-                    if chain != chain2 or resnumber != resnumber2:
-                        if disorder1 == '.' and disorder2 == '.':
-                            aList_contacts_chain.append(chain)
-                            aList_contacts_resno.append(resnumber)
-                            aList_contacts_resname.append(resname)
-                            aList_contacts_chain.append(chain2)
-                            aList_contacts_resno.append(resnumber2)
-                            aList_contacts_resname.append(resname2)
+                        if chain != chain2 or resnumber != resnumber2:
+                            if disorder1 == '.' and disorder2 == '.':
+                                aList_contacts_chain.append(chain)
+                                aList_contacts_resno.append(resnumber)
+                                aList_contacts_resname.append(resname)
+                                aList_contacts_chain.append(chain2)
+                                aList_contacts_resno.append(resnumber2)
+                                aList_contacts_resname.append(resname2)
+
+                if eachLine.find('****') or eachLine.find('Limits'):
+                    contact_list == 'no'
 
             if eachLine.find('VDW deviations ') > -1:
                 contact_list = 'yes'
 
             # get severe chiral center violations
 
-            if chiral_list == 'yes' and read_error_log == 'yes':
-
+            if chiral_list == 'yes' and iteration_final == 'yes':
+                
                 chain = eachLine[0:1]
                 chain = chain.strip()
                 if chain != '':
-                    resnumber = eachLine[1:5]
-                    resname = eachLine[6:9]
-                    resnumber = resnumber.strip()
                     resname = resname.strip()
-                    aList_chiral_chain.append(chain)
-                    aList_chiral_resno.append(resnumber)
-                    aList_chiral_resname.append(resname)
+                    aList_split = eachLine.split()
+                    num_aLine = len(aList_split)
+                    if num_aLine > 2:
+                        resnumber = aList_split[1]
+                        resname = aList_split[2]
+                        aList_chiral_chain.append(chain)
+                        aList_chiral_resno.append(resnumber)
+                        aList_chiral_resname.append(resname)
+
+                if eachLine.find('****') or eachLine.find('Limits'):
+                    chiral_list == 'no'
 
             if eachLine.find('Chiral volume deviations') > -1:
                 chiral_list = 'yes'

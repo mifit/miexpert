@@ -113,7 +113,7 @@
         <item>
          <widget class="QGroupBox" name="dataProcessingSuiteGroupBox" >
           <property name="title" >
-           <string>Data Processing Suite</string>
+           <string>Image Data</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout" >
            <property name="spacing" >
@@ -125,24 +125,18 @@
            <item>
             <widget class="QRadioButton" name="preProcessedRadioButton" >
              <property name="text" >
-              <string>Pre-processed</string>
+              <string>Preprocessed</string>
              </property>
              <property name="checked" >
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QRadioButton" name="dtrekRadioButton" >
-             <property name="text" >
-              <string>d*Trek</string>
-             </property>
-            </widget>
-           </item>
+ 
            <item>
             <widget class="QRadioButton" name="mosflmRadioButton" >
              <property name="text" >
-              <string>MOSFLM</string>
+              <string>Process</string>
              </property>
             </widget>
            </item>
@@ -448,7 +442,6 @@
   <tabstop>modelPDBPushButton</tabstop>
   <tabstop>spaceGroupComboBox</tabstop>
   <tabstop>preProcessedRadioButton</tabstop>
-  <tabstop>dtrekRadioButton</tabstop>
   <tabstop>mosflmRadioButton</tabstop>
   <tabstop>multipleModelsCheckBox</tabstop>
   <tabstop>detectorConstantsCheckBox</tabstop>

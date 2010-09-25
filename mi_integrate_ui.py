@@ -77,9 +77,9 @@ class IntegrateDialog(QtGui.QDialog):
 
     @QtCore.pyqtSlot()
     def on_intensityDataBrowse_clicked(self):
-        dir = QtGui.QFileDialog.getExistingDirectory(None, "", self.intensityData.text())
-        if not dir.isEmpty():
-            self.intensityData.setText(dir)
+        intensitydatafile = QtGui.QFileDialog.getOpenFileName(self, "Select a file", self.intensityData.text(),"Image Files (*.img *.osc)")
+        if not intensitydatafile.isEmpty():
+            self.intensityData.setText(intensitydatafile)
 
     @QtCore.pyqtSlot()
     def on_hardwareParametersPushButton_clicked(self):
