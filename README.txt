@@ -8,8 +8,8 @@ be used with MIFit, a cross-platform interactive graphics
 application for molecular modeling, fitting, and refinement
 of protein structures from x-ray crystallography.
 
-The project web site for both MIExpert and MIFit is
-http://code.google.com/p/mifit
+The repositories for both MIExpert and MIFit are at
+https://github.com/mifit
 
 MIExpert is licensed under the GNU GPL. See the license.txt
 file for details.
